@@ -27,9 +27,8 @@ def lvl_description():
 def lvl_select():
 	while True:
 		try:
-			lvl_description()
 			lvl = input().strip()
-			if lvl_validator(lvl) is True:
+			if lvl in lvls:
 				return lvl
 			else:
 				print("Некоректное значение, попытайся снова.\n")
@@ -40,11 +39,6 @@ def lvl_select():
 #			print("Что-то пошло не так, попытайся снова.\n")
 
 
-def lvl_validator(lvl_user_input) -> bool:
-	if lvl_user_input in lvls:
-		return True
-	return False
-
-
 hello()
+lvl_description()
 lvl_select()
