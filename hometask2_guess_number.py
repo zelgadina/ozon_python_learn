@@ -10,7 +10,7 @@ def hello_message():
 	username = getuser()
 	print("""
 	Привет, {username}!
-	Я - игра "Угадай число". Я загадала число от 1 до 100. Попробуй отгадать его!
+	Я - игра "Угадай число". Я загадала натуральное число от 1 до 100. Попробуй отгадать его!
 
 	Для выхода нажми Ctrl+C.
 	""".format(username=username))
@@ -42,16 +42,12 @@ def num_generator():
 	return randint(1, 100)
 
 def check_user_guess(guess):
-
 	if not guess.isdecimal():
 		return "is not num"
-
-	if int(guess) != secret_number:
-		if int(guess) > secret_number:
+	if int(guess) > secret_number:
 			return "my num is less"
-		if int(guess) < secret_number:
+	if int(guess) < secret_number:
 			return "my num is greater"
-	
 	return "guessed"
 
 def game_body(total_attempts):
@@ -59,23 +55,24 @@ def game_body(total_attempts):
 	print("Какое число я загадала?")
 	current_num_attempts = total_attempts
 	try:
-		while current_num_attempts > 1:
+		while current_num_attempts > 0:
+
 			guess = input().strip()
 			checked_guess = check_user_guess(guess)
 
 			if checked_guess == "is not num":
-				print("Это не число, введи нормально!")
+				print("Это не натуральное число от 1 до 100, введи нормально!")
 				continue
 			if checked_guess == "my num is less":
 				current_num_attempts -= 1
-				print("Моё число меньше. У тебя есть ещё попытки: ", current_num_attempts)
+				print("Моё число меньше. Осталось попыток: {n}/{m}".format(n=current_num_attempts, m=total_attempts))
 				continue
 			if checked_guess == "my num is greater":
 				current_num_attempts -= 1
-				print("Моё число больше. У тебя есть ещё попытки: ", current_num_attempts)
+				print("Моё число больше. Осталось попыток: {n}/{m}".format(n=current_num_attempts, m=total_attempts))
 				continue
 			if checked_guess == "guessed":
-				print(getuser().upper() + "WINS!\n Потребовалось попыток: ", current_num_attempts)
+				print("{name} WINS!\n Потребовалось попыток: {n}/{m}".format(name=getuser().upper(), n=current_num_attempts, m=total_attempts))
 				end = input("Для выхода нажми Ctrl+C или Enter.")
 				exit()
 		print("""
@@ -87,13 +84,6 @@ def game_body(total_attempts):
 			""")
 	except KeyboardInterrupt:
 			exit()
-
-
-
-
-
-#def game_body_input_validator(input):
-
 
 
 hello_message()
