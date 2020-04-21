@@ -78,6 +78,8 @@ def game_body(total_attempts):
             В твоём случае всё ещё проще, ведь тебе не приходится тратить
             отдельный вопрос для проверки на равенство.
             """)
+        end = input("Для выхода нажми Ctrl+C или Enter.")
+        exit()
     except KeyboardInterrupt:
             exit()
 
