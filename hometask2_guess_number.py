@@ -65,14 +65,16 @@ def game_body(total_attempts):
                 print("Моё число больше. Осталось попыток: {n}/{m}".format(n=current_num_attempts, m=total_attempts))
                 continue
             if checked_guess == "guessed":
-                print("{name} WINS!\n Потребовалось попыток: {n}/{m}".format(name=getuser().upper(), n=current_num_attempts, m=total_attempts))
-        print("""
-            Ты проиграл. Не знаю, утешит ли это тебя эта информация, но 
-            согласно теории игр и теории информации пользователю всегда 
-            достаточно задать не более чем log2 N вопросов типа "больше n?".
-            В твоём случае всё ещё проще, ведь тебе не приходится тратить
-            отдельный вопрос для проверки на равенство.
-            """)
+                print("{name} WINS!\n Потребовалось попыток: {n}/{m}\n".format(name=getuser().upper(), n=current_num_attempts, m=total_attempts))
+                break
+            else:
+                print("""
+                Ты проиграл. Не знаю, утешит ли это тебя эта информация, но 
+                согласно теории игр и теории информации пользователю всегда 
+                достаточно задать не более чем log2 N вопросов типа "больше n?".
+                В твоём случае всё ещё проще, ведь тебе не приходится тратить
+                отдельный вопрос для проверки на равенство.
+                """)
     except KeyboardInterrupt:
             exit()
 
