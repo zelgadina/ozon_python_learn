@@ -10,8 +10,7 @@ def hello_message():
     username = getuser()
     print("""
     Привет, {username}!
-    Я - игра "Угадай число". Я загадала натуральное число от 1 до 100. Попробуй отгадать его!
-
+    Я - игра "Угадай число". Я загадала натуральное число от 1 до 100. Попробуй отгадать его!\n
     Для выхода нажми Ctrl+C.
     """.format(username=username))
 
@@ -21,7 +20,6 @@ def lvl_description():
     [1] normal ({lvl_1} попыток)
     [2] nightmare ({lvl_2} попыток)
     [3] hell ({lvl_3} попыток)
-
     """.format(lvl_1=lvls['1'], lvl_2=lvls['2'], lvl_3=lvls['3']))
 
 def total_attempts_select():
