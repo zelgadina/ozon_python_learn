@@ -35,8 +35,6 @@ def total_attempts_select():
 				continue
 		except KeyboardInterrupt:
 			exit()
-#		except:
-#			print("Что-то пошло не так, попытайся снова.\n")
 
 def num_generator():
 	return randint(1, 100)
