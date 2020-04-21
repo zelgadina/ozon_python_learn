@@ -34,9 +34,6 @@ def total_attempts_select():
         except KeyboardInterrupt:
             exit()
 
-def num_generator():
-    return randint(1, 100)
-
 def check_user_guess(guess):
     if not guess.isdecimal():
         return "is not num"
@@ -83,7 +80,7 @@ def game_body(total_attempts):
 hello_message()
 lvl_description()
 total_attempts = total_attempts_select()
-secret_number = num_generator()
+secret_number = randint(1, 100)
 game_body(total_attempts)
 end = input("Для выхода нажми Ctrl+C или Enter.")
 exit()
