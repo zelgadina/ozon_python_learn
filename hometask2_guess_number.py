@@ -69,8 +69,6 @@ def game_body(total_attempts):
                 continue
             if checked_guess == "guessed":
                 print("{name} WINS!\n Потребовалось попыток: {n}/{m}".format(name=getuser().upper(), n=current_num_attempts, m=total_attempts))
-                end = input("Для выхода нажми Ctrl+C или Enter.")
-                exit()
         print("""
             Ты проиграл. Не знаю, утешит ли это тебя эта информация, но 
             согласно теории игр и теории информации пользователю всегда 
@@ -78,8 +76,6 @@ def game_body(total_attempts):
             В твоём случае всё ещё проще, ведь тебе не приходится тратить
             отдельный вопрос для проверки на равенство.
             """)
-        end = input("Для выхода нажми Ctrl+C или Enter.")
-        exit()
     except KeyboardInterrupt:
             exit()
 
@@ -89,4 +85,5 @@ lvl_description()
 total_attempts = total_attempts_select()
 secret_number = num_generator()
 game_body(total_attempts)
-
+end = input("Для выхода нажми Ctrl+C или Enter.")
+exit()
