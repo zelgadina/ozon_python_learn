@@ -29,8 +29,6 @@ def get_current_age():
 				continue
 		except KeyboardInterrupt:
 			exit()
-		except:
-			print("Что-то пошло не так, попытайся снова.\n")
 
 def current_year():
 	current_year = date.today().year
@@ -56,8 +54,6 @@ def get_future_year():
 				print(future_year_validator(user_input_year)[1]) # Сообщение о конкретной ошибке ввода
 		except KeyboardInterrupt:
 			exit()
-		except:
-			print("Что-то пошло не так, попытайся снова.\n")
 
 def calc_future_age(current_age, future_year):
 	difference_of_years = future_year - current_year()

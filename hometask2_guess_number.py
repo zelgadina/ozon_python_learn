@@ -38,9 +38,9 @@ def check_user_guess(guess):
     if not guess.isdecimal():
         return "is not num"
     if int(guess) > secret_number:
-            return "my num is less"
+        return "my num is less"
     if int(guess) < secret_number:
-            return "my num is greater"
+        return "my num is greater"
     return "guessed"
 
 def game_body(total_attempts):
