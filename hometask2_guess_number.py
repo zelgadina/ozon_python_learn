@@ -8,19 +8,19 @@ lvls = {'1': 12,
 
 def hello_message():
     username = getuser()
-    print("""
+    print(f"""
     Привет, {username}!
     Я - игра "Угадай число". Я загадала натуральное число от 1 до 100. Попробуй отгадать его!\n
     Для выхода нажми Ctrl+C.
-    """.format(username=username))
+    """)
 
 def lvl_description():
-    print("""
+    print(f"""
     Выбери уровень сложности (введи номер):
-    [1] normal ({lvl_1} попыток)
-    [2] nightmare ({lvl_2} попыток)
-    [3] hell ({lvl_3} попыток)
-    """.format(lvl_1=lvls['1'], lvl_2=lvls['2'], lvl_3=lvls['3']))
+    [1] normal ({lvls['1']} попыток)
+    [2] nightmare ({lvls['2']} попыток)
+    [3] hell ({lvls['3']} попыток)
+    """)
 
 def total_attempts_select():
     while True:
@@ -58,14 +58,14 @@ def game_body(total_attempts):
                 continue
             if checked_guess == "my num is less":
                 current_num_attempts -= 1
-                print("Моё число меньше. Осталось попыток: {n}/{m}".format(n=current_num_attempts, m=total_attempts))
+                print(f"Моё число меньше. Осталось попыток: {current_num_attempts}/{total_attempts}")
                 continue
             if checked_guess == "my num is greater":
                 current_num_attempts -= 1
-                print("Моё число больше. Осталось попыток: {n}/{m}".format(n=current_num_attempts, m=total_attempts))
+                print(f"Моё число больше. Осталось попыток: {current_num_attempts}/{total_attempts}")
                 continue
             if checked_guess == "guessed":
-                print("{name} WINS!\n Потребовалось попыток: {n}/{m}\n".format(name=getuser().upper(), n=current_num_attempts, m=total_attempts))
+                print(f"{getuser().upper()} WINS!\n Потребовалось попыток: {total_attempts - current_num_attempts}\n")
                 break
             else:
                 print("""
