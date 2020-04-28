@@ -3,7 +3,7 @@ from getpass import getuser
 
 def hello():
 	username = getuser()
-	print("""
+	print(f"""
 	Привет, {username}.
 	Эта программа вычисляет, сколько лет тебе будет в заданном году в будущем на основании твоего текущего возраста.
 	Для выхода нажми Ctrl+C.
