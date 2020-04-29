@@ -97,7 +97,7 @@ def examenation():
     errors = 0
     for i in range(attempts):
         try:
-            value = input(user_dict['hui']).strip()
+            value = input(user_dict[key]).strip()
 
             if not user_dict_validator_value(value):
                 print("Это не слово или словосочетание на русском.")
@@ -124,7 +124,7 @@ def examenation():
 #hello_message()
 print(get_user_dict())
 print(user_dict)
-print(attempts, 1488)
+print(attempts)
 examenation()
 
 
