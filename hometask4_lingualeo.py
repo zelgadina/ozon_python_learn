@@ -1,11 +1,30 @@
+# Программа позволяет пользователю свой англо-русский словарь,
+# а затем проверить свои знания. Словарь сохраняется в файл
+# user_dict.pickle и может быть обновлён при запуске программы.
+
+
 import pickle
-from os import system
+from os import system, path
 from re import search
 from random import randint
 from getpass import getuser
 
-user_dict = {}
+
 attempts = 10
+
+
+def load_data():
+    user_dict = {}
+    if path.exists('user_dict.pickle'):
+        with open('user_dict.pickle', 'rb') as f:
+            user_dict = pickle.load(f)
+    return user_dict
+
+
+def save_data(user_dict):
+    with open('user_dict.pickle', 'wb') as f:
+        pickle.dump(user_dict, f)
+
 
 def hello_message():
     try:
@@ -20,6 +39,7 @@ def hello_message():
     тебе будет предложено правильно перевести несколько ({attempts}) случайных слов.
 
     Чтобы обнулить словарь, удали файл 'user_dict' (он расположен в этом же каталоге).
+    Чтобы исправить перевод слова, введи его заново на английском и затем на русском.
 
     Внимание: при вводе учитывается регистр.
 
@@ -28,15 +48,18 @@ def hello_message():
     Чтобы выйти из программы, нажми Ctrl+C. Осторожно: введённые данные могут не сохраниться.
     """)
 
+
 def user_dict_validator_key(key):
     if search(r'^[a-zA-Z -\']+$', key):
         return key
     return False
 
+
 def user_dict_validator_value(value):
     if search(r'^[а-яА-Яё -,]+$', value):
         return value
     return False
+
 
 def get_user_dict():
     while True:
@@ -57,25 +80,10 @@ def get_user_dict():
                 continue
 
             user_dict[key] = value
-            update_user_dict(user_dict)
-
-            print(user_dict)
 
         except KeyboardInterrupt:
             exit()
-    print(user_dict)
-    test = input(attempts)
 
-def update_user_dict(addition):
-    with open('user_dict.pickle', 'ab') as f:
-        pickle.dump(user_dict, f)
-    pass
-
-def open_user_dict():
-    with open('user_dict.pickle', 'rb') as f:
-        fresh_user_dict = pickle.load(f)
-    print(fresh_user_dict)
-    return fresh_user_dict
 
 def pre_examenation():
     try:
@@ -89,28 +97,34 @@ def pre_examenation():
         """)
     pass
 
-def examenation():
+
+def examenation(user_dict):
     global attempts
 #    pre_examenation()
-    user_dict = open_user_dict()
-    print(user_dict)
+    print("get_user_dict pass, user_dict = ", user_dict)
     errors = 0
-    for i in range(attempts):
-        try:
-            value = input(user_dict[key]).strip()
+    try:
+        for i in range(attempts) and errors < 3:
+            value = input(user_dict['hui'] + ': ').strip()
 
             if not user_dict_validator_value(value):
                 print("Это не слово или словосочетание на русском.")
                 attempts += 1       # Чтобы ошибка ввода не считалась за неудачную попытку
                 continue
 
-            if value != user_dict[key]:
-                print(f"Ошибка. Правильный ответ: {user_dict[key]}")
+            if value != user_dict['hui']:
+                print(f"Ошибка. Правильный ответ: {user_dict['hui']}")
+                errors += 1
 
             else:
                 print("Правильный ответ!")
 
-        except KeyboardInterrupt:
+        if errors == 3:
+            print("Сегодня не твой день, повтори материал и возвращайся.")
+        else: 
+            print("Похоже, ты хорошо справляешься, так держать.")
+
+    except KeyboardInterrupt:
             exit()
 
     print(user_dict)
@@ -120,12 +134,12 @@ def examenation():
 
 
 
-
+user_dict = load_data()
 #hello_message()
-print(get_user_dict())
-print(user_dict)
-print(attempts)
-examenation()
+get_user_dict()
+print("after get_user_dict ", user_dict)
+save_data(user_dict)
+examenation(user_dict)
 
 
 #print("Сейчас у нас будет проверка, больше 3 ошибок нельзя")
