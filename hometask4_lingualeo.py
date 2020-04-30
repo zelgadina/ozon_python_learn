@@ -94,7 +94,7 @@ def pre_examenation():
         Теперь переходим к проверке.
         Я буду выводить слово или словосочетание на английском,
         а ты вводи его перевод на русском.
-        Если ты ошибёшься более трёх раз, ты проиграешь.
+        Если ты ошибёшься трижды, ты проиграешь.
         """)
     pass
 
@@ -132,10 +132,13 @@ def examenation(user_dict):
 
 
 
-user_dict = load_data()
+user_dict = load_data()     # Загрузка пользовательского словаря или его создание.
+
 hello_message()
-get_user_dict()
-print("after get_user_dict ", user_dict)
+
+get_user_dict()             # Получение от пользователя новых слов.
+
 save_data(user_dict)
+
 examenation(user_dict)
 
