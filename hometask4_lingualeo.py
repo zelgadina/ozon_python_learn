@@ -105,20 +105,21 @@ def examenation(user_dict):
     print("get_user_dict pass, user_dict = ", user_dict)
     errors = 0
     try:
-        for i in range(attempts) and errors < 3:
-            value = input(user_dict['hui'] + ': ').strip()
+        for i in range(attempts):
+            if errors < 3:
+                value = input(user_dict['hui'] + ': ').strip()
 
-            if not user_dict_validator_value(value):
-                print("Это не слово или словосочетание на русском.")
-                attempts += 1       # Чтобы ошибка ввода не считалась за неудачную попытку
-                continue
+                if not user_dict_validator_value(value):
+                    print("Это не слово или словосочетание на русском.")
+                    attempts += 1       # Чтобы ошибка ввода не считалась за неудачную попытку
+                    continue
 
-            if value != user_dict['hui']:
-                errors += 1
-                print(f"Ошибка №{errors}. Правильный ответ: {user_dict['hui']}")
+                if value != user_dict['hui']:
+                    errors += 1
+                    print(f"Ошибка №{errors}. Правильный ответ: {user_dict['hui']}")
 
-            else:
-                print("Правильный ответ!")
+                else:
+                    print("Правильный ответ!")
 
         if errors == 3:
             print("Сегодня не твой день, повтори материал и возвращайся.")
