@@ -106,17 +106,18 @@ def examenation(user_dict):
     errors = 0
     try:
         for i in range(attempts):
-            if errors < 3:
-                value = input(user_dict['hui'] + ': ').strip()
+            if errors < 3 and user_dict:
+                attempt = user_dict.popitem()
+                value = input(attempt[0] + ': ').strip()
 
                 if not user_dict_validator_value(value):
                     print("Это не слово или словосочетание на русском.")
                     attempts += 1       # Чтобы ошибка ввода не считалась за неудачную попытку
                     continue
 
-                if value != user_dict['hui']:
+                if value != attempt[1]:
                     errors += 1
-                    print(f"Ошибка №{errors}. Правильный ответ: {user_dict['hui']}")
+                    print(f"Ошибка №{errors}. Правильный ответ: {attempt[1]}")
 
                 else:
                     print("Правильный ответ!")
@@ -129,35 +130,12 @@ def examenation(user_dict):
     except KeyboardInterrupt:
             exit()
 
-    print(user_dict)
-    test = input("")
-
-
-
 
 
 user_dict = load_data()
-#hello_message()
+hello_message()
 get_user_dict()
 print("after get_user_dict ", user_dict)
 save_data(user_dict)
 examenation(user_dict)
 
-
-#print("Сейчас у нас будет проверка, больше 3 ошибок нельзя")
-
-#errors = 0
-#bonus = 0
-
-#for key in slovar.keys():
-#    print("Ввeдите перевод слова", key, ": ")
-#    answer = input(": ").strip().lower()
-#    if slovar[key] == answer:
-#        bonus += 1
-#        print("Ваш счет составляет", bonus)
-#    elif errors > 3:
-#        print("game over")
-#        break
-#    else:
-#        errors +=1
-#        print(slovar[key], "- правильный ответ")
