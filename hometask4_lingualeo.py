@@ -94,13 +94,14 @@ def pre_examenation():
         Теперь переходим к проверке.
         Я буду выводить слово или словосочетание на английском,
         а ты вводи его перевод на русском.
+        Если ты ошибёшься более трёх раз, ты проиграешь.
         """)
     pass
 
 
 def examenation(user_dict):
     global attempts
-#    pre_examenation()
+    pre_examenation()
     print("get_user_dict pass, user_dict = ", user_dict)
     errors = 0
     try:
@@ -113,8 +114,8 @@ def examenation(user_dict):
                 continue
 
             if value != user_dict['hui']:
-                print(f"Ошибка. Правильный ответ: {user_dict['hui']}")
                 errors += 1
+                print(f"Ошибка №{errors}. Правильный ответ: {user_dict['hui']}")
 
             else:
                 print("Правильный ответ!")
@@ -122,7 +123,7 @@ def examenation(user_dict):
         if errors == 3:
             print("Сегодня не твой день, повтори материал и возвращайся.")
         else: 
-            print("Похоже, ты хорошо справляешься, так держать.")
+            print("Похоже, ты хорошо справляешься, мама бы тобой гордилась.")
 
     except KeyboardInterrupt:
             exit()
