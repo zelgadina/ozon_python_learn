@@ -98,8 +98,8 @@ def pre_examenation():
 def examenation(user_dict):
     global attempts
     pre_examenation()
-    print("get_user_dict pass, user_dict = ", user_dict)
     errors = 0
+    len_dict = len(user_dict)
     try:
         for i in range(attempts):
             if errors < 3 and user_dict:
@@ -119,10 +119,10 @@ def examenation(user_dict):
                 else:
                     print("Правильный ответ!")
 
-        if errors == 3:
-            print("Сегодня не твой день, повтори материал и возвращайся.")
-        else: 
+        if errors < 3 and errors < len_dict:
             print("Похоже, ты хорошо справляешься, мама бы тобой гордилась.")
+        else:
+            print("Сегодня не твой день, повтори материал и возвращайся.")   
 
     except KeyboardInterrupt:
             exit()
@@ -139,4 +139,3 @@ get_user_dict()             # Получение от пользователя �
 save_data(user_dict)
 
 examenation(user_dict)
-
