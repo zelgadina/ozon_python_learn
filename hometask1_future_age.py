@@ -2,13 +2,11 @@ from datetime import date
 from getpass import getuser
 
 def hello():
-	username = getuser()
 	print(f"""
-	Привет, {username}.
+	Привет, {getuser()}.
 	Эта программа вычисляет, сколько лет тебе будет в заданном году в будущем на основании твоего текущего возраста.
 	Для выхода нажми Ctrl+C.
-
-	""".format(username=username))
+	""")
 
 def current_age_validator(user_input_age_string):
 	if not user_input_age_string.isdecimal():
@@ -61,11 +59,11 @@ def calc_future_age(current_age, future_year):
 	return future_age
 
 def print_future_age(future_age, future_year):
-	print("Твой возраст в {year} году: {age}.".format(year=future_year, age=future_age))
+	print(f"Твой возраст в {future_year} году: {future_age}.")
 
 
 hello()
 current_age = get_current_age()
 future_year = get_future_year()
-future_age = calc_future_age(current_age=current_age, future_year=future_year)
-print_future_age(future_age=future_age, future_year=future_year)
+future_age = calc_future_age(current_age, future_year)
+print_future_age(future_age, future_year)
