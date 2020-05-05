@@ -12,7 +12,7 @@ def hello_message():
         сумму и среднее арифметическое в выбранном файле.
 
         Файл должен содержать числа, записанные построчно.
-        Результаты обработки данных будут записны в файл results.txt
+        Результаты обработки данных будут записны в файл 'financial_report.txt'
         и продублированы на экране.
 
         Чтобы выйти из программы, нажми Ctrl+C.
@@ -29,8 +29,7 @@ def load_data():
                 with open(path_to_file, 'r') as f:
                     return  f.read().splitlines()
 
-            print(f"Файл с именем '{path_to_file}' не найден, попробуйте снова.\
-                    Проверьте путь к файлу и его расширение.")
+            print(f"Файл с именем '{path_to_file}' не найден, попробуйте снова.\nПроверьте путь к файлу и его расширение.")
             continue
 
     except KeyboardInterrupt:
@@ -46,11 +45,14 @@ def save_data(output_data):
 def preprocessing_data(input_data):
     """Возвращает нормализованный список из 'Decimal(item)'."""
     norm_data = []
+    num_error = ''
     for string in input_data:
         try:
             norm_data.append(Decimal(string))
         except Exception:
+            num_error = "Warning! Некоторые строки повреждены и не содержат чисел."
             continue
+    print(num_error)
     return norm_data
 
 def calc_total_sum(norm_data):
