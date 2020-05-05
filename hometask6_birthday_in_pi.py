@@ -13,8 +13,12 @@ def hello_message():
         """)
 
 def load_pi():
-    with open('pi.txt', 'r') as f:
-        return f.read()
+    try:
+        with open('pi.txt', 'r') as f:
+            return f.read()
+    except Exception:
+        print("Что-то пошло не так, убедитесь в наличии файла pi.txt.")
+        exit()
 
 def get_birth():
     while True:
