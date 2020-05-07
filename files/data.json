@@ -11,7 +11,7 @@
     },
     "0003": {
         "category": "fruits",
-        "price": 168.5,
+        "price": "168.50",
         "title": "gold mango"
     },
     "0004": {
