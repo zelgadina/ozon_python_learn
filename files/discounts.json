@@ -1,0 +1,12 @@
+{
+    "category": {
+        "all": 0.1,
+        "beer": 0.05,
+        "fruits": 0.2
+    },
+    "title": {
+        "Jaws Somnambula": 0.3,
+        "gold mango": 0.15,
+        "Современные операционные системы": -0.5
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "0001": {
+        "category": "beer",
+        "price": "250.00",
+        "title": "Jaws Somnambula"
+    },
+    "0002": {
+        "category": "beer",
+        "price": "200.00",
+        "title": "Jaws Citrazen"
+    },
+    "0003": {
+        "category": "fruits",
+        "price": 168.5,
+        "title": "gold mango"
+    },
+    "0004": {
+        "category": "book",
+        "price": "3120.00",
+        "title": "Современные операционные системы"
+    }
+}
