@@ -9,6 +9,7 @@ from os import path
 from re import search
 from validate_email import validate_email
 
+
 def print_hello_message():
     print("""
     Добро пожаловать на анимешный форум для девочек, Анон. Снова.
@@ -25,12 +26,13 @@ def print_hello_message():
     ...
 
 def load_data():
+    """Подгружает словарь пользователей из файла, если файл пуст или
+    не найден, возвращает словарь из одного дефолтного пользователя."""
     try:
         file_path = 'files/users.json'
         if path.exists(path.normpath(file_path)):
             with open(file_path, 'r') as f:
                 return json.load(f)
-
         return {'admin123' : ['123', 'admin@test.com']}
     except Exception:
         print("Упс! Что-то пошло не так :'(")
@@ -68,20 +70,24 @@ def get_password():
             continue
 
 def validate_email_():
+    """Валидирует email и проверяет, что в users нет зарегистрированных
+    пользователей с таким же."""
     while True:
-
-        email = input("Введи email: ").strip()
-        if not validate_email(email):
-            print("Похоже, такого email не существует, введи реальный.")
-            continue
-
-        for user in users:
-            # import pdb; pdb.set_trace()
-            if email == users[user][1]:
-                print("Ошибка! Этот email уже занят.")
+        try:
+            email = input("Введи email: ").strip()
+            if not validate_email(email):
+                print("Похоже, такого email не существует, введи реальный.")
                 continue
+
+            for user in users:
+                assert email != users[user][1]
+                continue
+
             return email
 
+        except AssertionError:
+            print("Ошибка! Этот email уже занят.")
+            continue
 
 def create_user():
     try:
@@ -92,7 +98,6 @@ def create_user():
 
     except KeyboardInterrupt:
         exit()
-    ...
 
 def save_data(users):
     file_path = path.normpath('files/users.json')
@@ -100,9 +105,7 @@ def save_data(users):
         json.dump(users, f, indent=4)
 
 
-#print_hello_message()
+print_hello_message()
 users = load_data()
-print(users)
 new_user = create_user()
 save_data(users)
-print(users)
