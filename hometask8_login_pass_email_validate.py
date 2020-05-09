@@ -10,7 +10,10 @@ from getpass import getuser
 def print_hello_message():
 	...
 
-def validate_log_and_pass():
+def validate_login():
+	...
+
+def validate_email():
 	...
 
 def save_data():
