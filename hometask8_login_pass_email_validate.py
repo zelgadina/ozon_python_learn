@@ -39,7 +39,7 @@ def load_data():
         exit()
 
 def validate_login_or_pass(value):
-    if search(r'^[!-~]{1,32}$', value):
+    if search(r'^[!-~]{8,32}$', value):
         return value
     return False
 
