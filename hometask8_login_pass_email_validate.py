@@ -7,6 +7,8 @@
 import json
 from os import path
 from re import search
+from hashlib import sha256
+from getpass import getpass
 from validate_email import validate_email
 
 
@@ -33,7 +35,7 @@ def load_data():
         if path.exists(path.normpath(file_path)):
             with open(file_path, 'r') as f:
                 return json.load(f)
-        return {'admin123' : ['123', 'admin@test.com']}
+        return {'admin' : ['3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2', 'admin@test.com']}
     except Exception:
         print("Упс! Что-то пошло не так :'(")
         exit()
@@ -56,12 +58,13 @@ def get_login():
             continue
 
 def get_password():
+    """Валидирует пароль и возвращает его в виде sha256."""
     while True:
-        password = input("Введи пароль: ").strip()
+        password = getpass("Введи пароль: ").strip()
         if validate_login_or_pass(password):
-            password_conf = input("Введи пароль повторно: ").strip()
+            password_conf = getpass("Введи пароль повторно: ").strip()
             if password_conf == password:
-                return password
+                return sha256(password.encode('utf-8')).hexdigest()
             else:
                 print("Пароли не совпадают!")
                 continue
