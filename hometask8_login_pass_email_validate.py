@@ -107,8 +107,16 @@ def save_data(users):
     with open(file_path, 'w') as f:
         json.dump(users, f, indent=4)
 
+def print_success():
+    print("""
+    Отлично, ты зарегистрирован. Мы свяжемся с тобой по указанному адресу.
+    А пока ты можешь принимать участие в обсуждениях, используя свой логин
+     и пароль для доступа в личном кабинете.
+    """)
+
 
 print_hello_message()
 users = load_data()
 new_user = create_user()
 save_data(users)
+print_success()
