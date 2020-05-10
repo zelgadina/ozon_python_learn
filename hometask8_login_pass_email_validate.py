@@ -64,12 +64,12 @@ def get_password():
             password_conf = getpass("Введи пароль повторно: ").strip()
             if password_conf == password:
                 return sha256(password.encode('utf-8')).hexdigest()
-            else:
-                print("Пароли не совпадают!")
-                continue
-        else:
-            print("Ошибка! Проверь пароль на соответствие правилам.")
+
+            print("Пароли не совпадают!")
             continue
+            
+        print("Ошибка! Проверь пароль на соответствие правилам.")
+        continue
 
 def validate_email_():
     """Валидирует email и проверяет, что в users нет зарегистрированных
