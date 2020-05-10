@@ -50,11 +50,12 @@ def get_login():
         if validate_login_or_pass(login):
             if login not in users:
                 return login
+                
             print("Ошибка! Такой логин уже существует.")
             continue
-        else:
-            print("Ошибка! Проверь логин на соответствие правилам.")
-            continue
+
+        print("Ошибка! Проверь логин на соответствие правилам.")
+        continue
 
 def get_password():
     """Валидирует пароль и возвращает его в виде sha256."""
@@ -67,7 +68,7 @@ def get_password():
 
             print("Пароли не совпадают!")
             continue
-            
+
         print("Ошибка! Проверь пароль на соответствие правилам.")
         continue
 
