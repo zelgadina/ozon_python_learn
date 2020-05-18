@@ -1,5 +1,3 @@
-# Напишите парсер картинок с любого раздела сайта OZON, который их сохраняет на компьютер
-
 import json
 import requests
 from re import match
@@ -10,7 +8,10 @@ from bs4 import BeautifulSoup
 
 
 def print_hello_message():
-    ...
+    print("""
+    Введи URL любого раздела сайта Ozon вида 'https://www.ozon.ru/category/<имя_категории>/',
+    и я скачаю все картинки товаров этого раздела со всех страниц в папку, которую ты укажешь.
+    """)
 
 def make_dir():
     while True:
@@ -75,16 +76,8 @@ def get_pictures_list(params, url):
     response = s.get(url, params=params)
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # with open("soup", "w") as f:
-    #     print(soup, file=f)
-
-    # with open('soup', 'r') as f:
-    #     soup = f.read()
-
-    # soup = BeautifulSoup(soup, 'html.parser')
-
     images = []
-    # import pdb; pdb.set_trace()
+
     try:
         for script in soup.find_all('script'):
             ID = script.get('id')
@@ -94,8 +87,6 @@ def get_pictures_list(params, url):
 
         for item in json_data['items']:
             images.append(item['images'])
-
-        print(images)
 
     except Exception as Ex:
         print("Нас забанили, или закончились страницы в данном разделе.")
@@ -135,10 +126,7 @@ def save_pictures(all_pictures, dir):
 user_dir = make_dir()
 URL = get_url()
 
-# https://www.ozon.ru/category/yazyki-programmirovaniya-33705/
-
 all_pictures = get_pictures_links_from_all_pages(URL)
-print(all_pictures)
 
 pictures_list = unpack_pictures_lists(all_pictures)
 
