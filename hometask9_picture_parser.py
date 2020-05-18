@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def print_hello_message():
     print("""
-    Введи URL любого раздела сайта Ozon вида 'https://www.ozon.ru/category/<имя_категории>/',
+    Введи URL любого кножного раздела сайта Ozon вида 'https://www.ozon.ru/category/<имя_категории>/',
     и я скачаю все картинки товаров этого раздела со всех страниц в папку, которую ты укажешь.
     """)
 
@@ -103,7 +103,7 @@ def get_pictures_links_from_all_pages(url):
         if not pics_of_page:
             break
         all_pictures.append(pics_of_page)
-        print(f"Page {page} done.")
+        print(f"Page {page} done. Waiting...")
         sleep(15)
     return all_pictures
 
