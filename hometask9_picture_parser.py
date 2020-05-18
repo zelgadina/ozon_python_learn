@@ -1,9 +1,11 @@
 # Напишите парсер картинок с любого раздела сайта OZON, который их сохраняет на компьютер
 
-import re
 import json
 import requests
+from re import match
+from time import sleep
 from os import mkdir, path
+from urllib import request
 from bs4 import BeautifulSoup
 
 
@@ -48,6 +50,20 @@ def get_user_ya_xml():
     except KeyboardInterrupt:
         exit()
 
+def get_url():
+    while True:
+        try:
+            url = input("Введи URL раздела: ").strip()
+            if not match(r'https:\/\/www\.ozon\.ru\/category\/(.+)\/$', url):
+                print("Похоже, это не сайт Озона или раздел, который я не умею парсить.")
+                continue
+            if request.urlopen(url).getcode() != 200:
+                print("Неверный адрес раздела или сервер не отвечает.")
+                continue
+            return url
+        except KeyboardInterrupt:
+            exit()
+
 def get_pictures_list(params, url):
     s = requests.Session()
     s.headers.update({
@@ -60,49 +76,74 @@ def get_pictures_list(params, url):
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # with open("soup", "w") as f:
-    #         print(soup, file=f)
+    #     print(soup, file=f)
 
-    # # with open('soup', 'r') as f:
-    # #     soup = f.read()
+    # with open('soup', 'r') as f:
+    #     soup = f.read()
 
     # soup = BeautifulSoup(soup, 'html.parser')
 
     images = []
     # import pdb; pdb.set_trace()
+    try:
+        for script in soup.find_all('script'):
+            ID = script.get('id')
+            if ID and ID.startswith('state-searchResultsV2'):
+                json_data = json.loads(str(script.contents[0]))
+                break
 
-    for script in soup.find_all('script'):
-        ID = script.get('id')
-        if ID and ID.startswith('state-searchResultsV2'):
-            json_data = json.loads(str(script.contents[0]))
+        for item in json_data['items']:
+            images.append(item['images'])
 
-    for item in json_data['items']:
-        images.append(item['images'])
+        print(images)
 
-    print(images)
-    
-    return images
+    except Exception as Ex:
+        print("Нас забанили, или закончились страницы в данном разделе.")
+        print(Ex)
+    finally:
+        return images
+
+def get_pictures_links_from_all_pages(url):
+    params = get_user_ya_xml()
+    all_pictures = []
+    for page in range(1, 10):
+        params['page'] = page
+        pics_of_page = get_pictures_list(params, url)
+        if not pics_of_page:
+            break
+        all_pictures.append(pics_of_page)
+        print(f"Page {page} done.")
+        sleep(15)
+    return all_pictures
+
+def unpack_pictures_lists(pictures_lists):
+    pictures = []
+    for l1 in pictures_lists:
+        for l2 in l1:
+            pictures.extend(l2)
+    return pictures
+
+def save_pictures(all_pictures, dir):
+    for picture in all_pictures:
+        pic = requests.get(pic, stream=True)
+        file_path = path.join(dir, pic[-14:])
+        with open(file_path, "wb") as f:
+            f.write(pic.content)
+
+
+
+user_dir = make_dir()
+URL = get_url()
+
+# https://www.ozon.ru/category/yazyki-programmirovaniya-33705/
+
+all_pictures = get_pictures_links_from_all_pages(URL)
+print(all_pictures)
+
+pictures_list = unpack_pictures_lists(all_pictures)
+
+save_pictures(pictures_list, user_dir)
 
 
 
 
-def save_pictures():
-    ...
-
-# make_dir()
-
-URL = 'https://www.ozon.ru/category/yazyki-programmirovaniya-33705/'
-
-params = get_user_ya_xml()
-
-get_pictures_list(params, URL)
-
-
-
-
-
-
-
-# https://cdn1.ozone.ru/s3/multimedia-2/wc250/6007449950.jpg
-# https://cdn1.ozone.ru/s3/multimedia-3/wc250/6007449951.jpg
-# https://cdn1.ozone.ru/s3/multimedia-t/wc250/6000018281.jpg
-# https://cdn1.ozone.ru/multimedia/wc250/1011395255.jpg
