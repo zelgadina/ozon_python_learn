@@ -41,7 +41,7 @@ def load_data():
 
 def validate_login_or_pass(value):
     if search(r'^[!-~]{8,32}$', value):
-        return value
+        return True
     return False
 
 def get_login():
@@ -49,8 +49,8 @@ def get_login():
         login = input("Введи логин: ").strip()
         if validate_login_or_pass(login):
             if login not in users:
-                return login
-                
+                return True
+
             print("Ошибка! Такой логин уже существует.")
             continue
 
@@ -111,7 +111,7 @@ def print_success():
     print("""
     Отлично, ты зарегистрирован. Мы свяжемся с тобой по указанному адресу.
     А пока ты можешь принимать участие в обсуждениях, используя свой логин
-     и пароль для доступа в личном кабинете.
+    и пароль для доступа в личном кабинете.
     """)
 
 
