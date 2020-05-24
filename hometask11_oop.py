@@ -97,13 +97,13 @@ class Validate(object):
     @staticmethod
     def validate_login(user_name):
         if search(r'^[!-~]{1,32}$', user_name):
-            return user_name
+            return True
         return False
 
     @staticmethod
     def validate_password(password):
         if search(r'^[!-~]{8,32}$', password):
-            return password
+            return True
         return False
 
 
@@ -117,6 +117,8 @@ USER_PASSWORD = '123'
 
 user = User(USER_LOGIN, USER_PASSWORD)
 user.login()
+
+# save_data()
 
 # Validate.validate_login(user.user_name)
 # Validate.validate_password(user.password)
