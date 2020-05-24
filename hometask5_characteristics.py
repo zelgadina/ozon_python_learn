@@ -53,12 +53,12 @@ def unpack_current_names(names):
 
 def validate_name(name):
     if search(r'^[а-яА-ЯЁё \-,]+$', name):
-        return name
+        return True
     return False
 
 def validate_gender(gender):
     if gender in genders:
-        return gender
+        return True
     return False 
 
 def make_set_of_names():
