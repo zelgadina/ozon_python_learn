@@ -48,13 +48,13 @@ def hello_message():
 
 def user_dict_validator_key(key):
     if search(r'^[a-zA-Z \-\']+$', key):
-        return key
+        return True
     return False
 
 
 def user_dict_validator_value(value):
     if search(r'^[а-яА-ЯЁё \-,]+$', value):
-        return value
+        return True
     return False
 
 
