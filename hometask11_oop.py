@@ -21,12 +21,31 @@ import json
 from os import path
 from re import search
 from uuid import uuid4
-from hashlib import sha256
 from getpass import getpass
+from hashlib import sha256, md5
 
 
-def print_hello_message():
-    print("""
+def save_data(user):
+    # По-моему, бессмысленно сохранять пользователя в отдельный файл, да ещё и
+    # с рандомным числом в конце. Это имело бы хоть какой-то смысл, если бы мы
+    # допускали существование пользователей с одинаковыми логинами, но ведь это
+    # не так! Не вижу необходимости страдать по-полной, хватит с них и хеша.
+
+    new_user = ({user.login: [user.password, str(user.uuid)]})
+    file_path = path.normpath(f'oop_users/{user.login}_{md5(user.login.encode()).hexdigest()}.json')
+    with open(file_path, 'w') as f:
+        json.dump(new_user, f, indent=4)
+
+class User(object):
+    """I hate fucking oop."""
+    def __init__(self, login, password, uuid):
+        self.login = login
+        self.password = password
+        self.uuid = uuid
+
+    @staticmethod
+    def greet():
+        print("""
     Привет. Если ты зарегистрирован, то можешь сыграть в любую из предложенных игр.
     Если нет, то сначала зарегистрируйся.
 
@@ -36,61 +55,36 @@ def print_hello_message():
     Для отказа от участия нажми Ctrl+C.
     """)
 
-def load_data():
-    """Подгружает словарь пользователей из файла, если файл пуст или
-    не найден, возвращает словарь из одного дефолтного пользователя."""
-    try:
-        file_path = 'files/oop_users.json'
-        if path.exists(path.normpath(file_path)):
-            with open(file_path, 'r') as f:
-                return json.load(f)
-        return {'admin' : ['3b612c75a7b5048a435fb6ec81e52ff92d6d795a8b5a9c17070f6a63c97a53b2',
-                           'b79b41c1-31c9-43f2-8e12-b7ffde754404']}
-    except Exception:
-        print("Упс! Что-то пошло не так :'(")
-        exit()
+    @staticmethod
+    def get_login():
+        while True:
+            login = input("Введи логин: ").strip()
+            if Validate.validate_login(login):
+                file_path = f'oop_users/{login}_{md5(login.encode()).hexdigest()}.json'
+                if not path.exists(path.normpath(file_path)):
+                    return login
 
-def save_data(users):
-    file_path = path.normpath('files/oop_users.json')
-    with open(file_path, 'w') as f:
-        json.dump(users, f, indent=4)
+                print("Ошибка! Такой логин уже существует.")
+                continue
 
-# def get_login():
-#     while True:
-#         login = input("Введи логин: ").strip()
-#         if validate_login_or_pass(login):
-#             if login not in users:
-#                 return login
+            print("Ошибка! Проверь логин на соответствие правилам.")
+            continue
 
-#             print("Ошибка! Такой логин уже существует.")
-#             continue
+    @staticmethod
+    def get_password():
+        """Валидирует пароль и возвращает его в виде sha256."""
+        while True:
+            password = getpass("Введи пароль: ").strip()
+            if Validate.validate_password(password):
+                password_conf = getpass("Введи пароль повторно: ").strip()
+                if password_conf == password:
+                    return sha256(password.encode('utf-8')).hexdigest()
 
-#         print("Ошибка! Проверь логин на соответствие правилам.")
-#         continue
+                print("Пароли не совпадают!")
+                continue
 
-# def get_password():
-#     """Валидирует пароль и возвращает его в виде sha256."""
-#     while True:
-#         password = getpass("Введи пароль: ").strip()
-#         if validate_login_or_pass(password):
-#             password_conf = getpass("Введи пароль повторно: ").strip()
-#             if password_conf == password:
-#                 return sha256(password.encode('utf-8')).hexdigest()
-
-#             print("Пароли не совпадают!")
-#             continue
-
-#         print("Ошибка! Проверь пароль на соответствие правилам.")
-#         continue
-
-class User(object):
-    """I hate fucking oop."""
-    def __init__(self, user_name, password):
-        self.user_name = user_name
-        self.password = password
-        self.uniq_id = None
-    def login(self):
-        print(self.user_name, self.password)
+            print("Ошибка! Проверь пароль на соответствие правилам.")
+            continue
 
 class Validate(object):
 
@@ -108,19 +102,12 @@ class Validate(object):
 
 
 
-print_hello_message()
-users = load_data()
+User.greet()
 
+login = User.get_login()
+password = User.get_password()
+uuid = uuid4()
 
-USER_LOGIN = 'abyr'
-USER_PASSWORD = '123'
+user = User(login, password, uuid)
 
-user = User(USER_LOGIN, USER_PASSWORD)
-user.login()
-
-# save_data()
-
-# Validate.validate_login(user.user_name)
-# Validate.validate_password(user.password)
-        
-        
+save_data(user)
