@@ -116,7 +116,7 @@ def unpack_pictures_lists(pictures_lists):
 
 def save_pictures(all_pictures, dir):
     for picture in all_pictures:
-        pic = requests.get(pic, stream=True)
+        pic = requests.get(picture, stream=True)
         file_path = path.join(dir, pic[-14:])
         with open(file_path, "wb") as f:
             f.write(pic.content)
@@ -130,8 +130,6 @@ URL = get_url()
 all_pictures = get_pictures_links_from_all_pages(URL)
 
 pictures_list = unpack_pictures_lists(all_pictures)
-
-import pdb; pdb.set_trace()
 
 save_pictures(pictures_list, user_dir)
 
