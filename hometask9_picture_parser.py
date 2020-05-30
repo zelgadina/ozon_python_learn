@@ -122,6 +122,7 @@ def save_pictures(all_pictures, dir):
             f.write(pic.content)
 
 
+print_hello_message()
 
 user_dir = make_dir()
 URL = get_url()
@@ -129,6 +130,8 @@ URL = get_url()
 all_pictures = get_pictures_links_from_all_pages(URL)
 
 pictures_list = unpack_pictures_lists(all_pictures)
+
+import pdb; pdb.set_trace()
 
 save_pictures(pictures_list, user_dir)
 
