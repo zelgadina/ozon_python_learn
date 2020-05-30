@@ -49,7 +49,7 @@ def get_login():
         login = input("Введи логин: ").strip()
         if validate_login_or_pass(login):
             if login not in users:
-                return True
+                return login
 
             print("Ошибка! Такой логин уже существует.")
             continue
