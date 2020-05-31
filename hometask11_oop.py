@@ -89,7 +89,7 @@ class User(object):
     @staticmethod
     def greet():
         print("""
-    Привет. Если ты зарегистрирован, то можешь сыграть в любую из предложенных игр.
+    Привет. Если ты зарегистрирован, то можешь сыграть в змейку.
     Если нет, то сначала зарегистрируйся.
 
     Логин и пароль должны состоять из латиницы и стандартных символов: '~!@#$%', etc.
@@ -149,24 +149,24 @@ class Validate(object):
             return True
         return False
 
+if __name__ == "__main__":
+    make_dir()
 
-make_dir()
+    User.greet()
 
-User.greet()
+    check_user_registration()
 
-check_user_registration()
+    login = User.get_login()
+    password = User.get_password()
+    uuid = uuid4()
 
-login = User.get_login()
-password = User.get_password()
-uuid = uuid4()
+    user = User(login, password, uuid)
 
-user = User(login, password, uuid)
+    save_data(user)
 
-save_data(user)
+    print("""
+    Отлично, теперь давай сыграем.
+    """)
 
-print("""
-Отлично, теперь давай сыграем.
-""")
-
-import snake
-exit()
+    import snake
+    exit()
