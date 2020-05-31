@@ -18,12 +18,16 @@
 # (проблемная ситуация в том, что эти игры написаны на Python 2 и их надо переписать)
 
 import json
-from os import path
 from re import search
 from uuid import uuid4
+from os import path, mkdir
 from getpass import getpass
 from hashlib import sha256, md5
 
+
+def make_dir():
+    if not path.isdir('oop_users'):
+        mkdir('oop_users')
 
 def save_data(user):
     # По-моему, бессмысленно сохранять пользователя в отдельный файл, да ещё и
@@ -37,7 +41,6 @@ def save_data(user):
         json.dump(new_user, f, indent=4)
 
 class User(object):
-    """I hate fucking oop."""
     def __init__(self, login, password, uuid):
         self.login = login
         self.password = password
@@ -46,8 +49,8 @@ class User(object):
     @staticmethod
     def greet():
         print("""
-    Привет. Если ты зарегистрирован, то можешь сыграть в любую из предложенных игр.
-    Если нет, то сначала зарегистрируйся.
+    Привет. Тебе повезло, юзернейм, сейчас действует акция для новых пользователей
+    нашего сайта! Сразу после регистрации ты сможешь сыграть в игру.
 
     Логин и пароль должны состоять из латиницы и стандартных символов: '~!@#$%', etc.
     Логин — от 1 до 32 символов, пароль — от 8 до 32.
@@ -58,33 +61,39 @@ class User(object):
     @staticmethod
     def get_login():
         while True:
-            login = input("Введи логин: ").strip()
-            if Validate.validate_login(login):
-                file_path = f'oop_users/{login}_{md5(login.encode()).hexdigest()}.json'
-                if not path.exists(path.normpath(file_path)):
-                    return login
+            try:
+                login = input("Введи логин: ").strip()
+                if Validate.validate_login(login):
+                    file_path = f'oop_users/{login}_{md5(login.encode()).hexdigest()}.json'
+                    if not path.exists(path.normpath(file_path)):
+                        return login
 
-                print("Ошибка! Такой логин уже существует.")
+                    print("Ошибка! Такой логин уже существует.")
+                    continue
+
+                print("Ошибка! Проверь логин на соответствие правилам.")
                 continue
-
-            print("Ошибка! Проверь логин на соответствие правилам.")
-            continue
+            except KeyboardInterrupt:
+                exit()
 
     @staticmethod
     def get_password():
         """Валидирует пароль и возвращает его в виде sha256."""
         while True:
-            password = getpass("Введи пароль: ").strip()
-            if Validate.validate_password(password):
-                password_conf = getpass("Введи пароль повторно: ").strip()
-                if password_conf == password:
-                    return sha256(password.encode('utf-8')).hexdigest()
+            try:
+                password = getpass("Введи пароль: ").strip()
+                if Validate.validate_password(password):
+                    password_conf = getpass("Введи пароль повторно: ").strip()
+                    if password_conf == password:
+                        return sha256(password.encode('utf-8')).hexdigest()
 
-                print("Пароли не совпадают!")
+                    print("Пароли не совпадают!")
+                    continue
+
+                print("Ошибка! Проверь пароль на соответствие правилам.")
                 continue
-
-            print("Ошибка! Проверь пароль на соответствие правилам.")
-            continue
+            except KeyboardInterrupt:
+                exit()
 
 class Validate(object):
 
@@ -101,6 +110,7 @@ class Validate(object):
         return False
 
 
+make_dir()
 
 User.greet()
 
@@ -111,3 +121,9 @@ uuid = uuid4()
 user = User(login, password, uuid)
 
 save_data(user)
+
+print("""
+Отлично, теперь давай сыграем.
+""")
+
+import snake
