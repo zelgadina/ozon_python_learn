@@ -3,18 +3,13 @@
 # деление, умножение. Класс должен быть покрыт тестами, в котором
 # тестируется его работа, если пользователь забивает 1.цифру 2.букву 3.Пустой символ
 
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 
 
 def check_operands(func):
     def wrapper(a, b):
-        try:
-            a, b = Decimal(a), Decimal(b)
-            return func(a, b)
-        except InvalidOperation:
-            print("Ошибка типа операндов.")
-        except ArithmeticError:
-            print("Ошибка вычисления.")
+        a, b = Decimal(str(a)), Decimal(str(b))
+        return func(a, b)
     return wrapper
 
 
