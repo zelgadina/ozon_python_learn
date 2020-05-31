@@ -7,66 +7,40 @@ from pytest import raises
 from hometask12_calculator import Calculator
 from decimal import Decimal, InvalidOperation, DivisionByZero
 
-def test_add_happy():
+def test_add():
     assert Calculator.addition(1, 100500) == Decimal('100501')
-
-def test_add_letters():
     with raises(InvalidOperation):
         Calculator.addition('kek', 'лул')
-
-def test_add_none_a():
     with raises(InvalidOperation):
         Calculator.addition(None, 1)
-
-def test_add_empty():
     with raises(InvalidOperation):
         Calculator.addition('', '')
 
-def test_sub_happy():
+def test_sub():
     assert Calculator.subtraction(-10, -12.009) == Decimal('2.009')
-
-def test_sub_letters():
     with raises(InvalidOperation):
         Calculator.subtraction(1, 'haskell')
-
-def test_sub_none_b():
     with raises(InvalidOperation):
         Calculator.subtraction(1337, None)
-
-def test_sub_empty():
     with raises(InvalidOperation):
         Calculator.subtraction('', '')
 
-def test_mul_happy():
+def test_mul():
     assert Calculator.multiplication(100, 3) == Decimal('300')
-    
-def test_mul_letters():
     with raises(InvalidOperation):
         Calculator.multiplication('one', 'two')
-
-def test_mul_none_a_b():
     with raises(InvalidOperation):
         Calculator.multiplication(None, None)
-
-def test_mul_empty():
     with raises(InvalidOperation):
         Calculator.multiplication('', '')
 
-def test_div_happy():
+def test_div():
     assert Calculator.division(1.23e+2, 2) == Decimal('61.5')
-
-def test_div_letters():
     with raises(InvalidOperation):
         Calculator.division(1, 'ab')
-
-def test_div_none_a_b():
     with raises(InvalidOperation):
         Calculator.division(None, None)
-
-def test_div_empty():
     with raises(InvalidOperation):
         Calculator.division('', '')
-
-def test_div_zero():
     with raises(DivisionByZero):
         Calculator.division(1, 0)
