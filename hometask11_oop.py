@@ -40,6 +40,46 @@ def save_data(user):
     with open(file_path, 'w') as f:
         json.dump(new_user, f, indent=4)
 
+def check_user_registration():
+    while True:
+        try:
+            answer = input("Ты уже зарегистрирован? (y/n)").strip().casefold()
+            if answer == ('y' or 'yes'):
+                authorize()
+                break
+            if answer == ('n' or 'no'):
+                print("Тогда сначала зарегистрируйся.")
+                break
+            print("Введи 'y' или 'n'.")
+            continue
+        except KeyboardInterrupt:
+            exit()
+
+def authorize():
+    try:
+        while True:
+            login = input("Введи логин: ").strip()
+            file_path = f'oop_users/{login}_{md5(login.encode()).hexdigest()}.json'
+            if path.exists(path.normpath(file_path)):
+                break
+            else:
+                print("Неверный логин!")
+                continue
+        with open(file_path, 'r') as f:
+            user = json.load(f)
+        while True:
+            password = getpass("Введи пароль: ").strip()
+            import pdb; pdb.set_trace()
+            if sha256(password.encode('utf-8')).hexdigest() == user[login][0]:
+                print("Авторизация прошла успешно!")
+                import snake
+                exit()
+            else:
+                print("Неверный пароль!")
+                continue
+    except KeyboardInterrupt:
+        exit()
+
 class User(object):
     def __init__(self, login, password, uuid):
         self.login = login
@@ -49,8 +89,8 @@ class User(object):
     @staticmethod
     def greet():
         print("""
-    Привет. Тебе повезло, юзернейм, сейчас действует акция для новых пользователей
-    нашего сайта! Сразу после регистрации ты сможешь сыграть в игру.
+    Привет. Если ты зарегистрирован, то можешь сыграть в любую из предложенных игр.
+    Если нет, то сначала зарегистрируйся.
 
     Логин и пароль должны состоять из латиницы и стандартных символов: '~!@#$%', etc.
     Логин — от 1 до 32 символов, пароль — от 8 до 32.
@@ -114,6 +154,8 @@ make_dir()
 
 User.greet()
 
+check_user_registration()
+
 login = User.get_login()
 password = User.get_password()
 uuid = uuid4()
@@ -127,3 +169,4 @@ print("""
 """)
 
 import snake
+exit()
