@@ -18,6 +18,10 @@ def test_add_none_a():
     with raises(InvalidOperation):
         Calculator.addition(None, 1)
 
+def test_add_empty():
+    with raises(InvalidOperation):
+        Calculator.addition('', '')
+
 def test_sub_happy():
     assert Calculator.subtraction(-10, -12.009) == Decimal('2.009')
 
@@ -28,6 +32,10 @@ def test_sub_letters():
 def test_sub_none_b():
     with raises(InvalidOperation):
         Calculator.subtraction(1337, None)
+
+def test_sub_empty():
+    with raises(InvalidOperation):
+        Calculator.subtraction('', '')
 
 def test_mul_happy():
     assert Calculator.multiplication(100, 3) == Decimal('300')
@@ -40,6 +48,10 @@ def test_mul_none_a_b():
     with raises(InvalidOperation):
         Calculator.multiplication(None, None)
 
+def test_mul_empty():
+    with raises(InvalidOperation):
+        Calculator.multiplication('', '')
+
 def test_div_happy():
     assert Calculator.division(1.23e+2, 2) == Decimal('61.5')
 
@@ -50,6 +62,10 @@ def test_div_letters():
 def test_div_none_a_b():
     with raises(InvalidOperation):
         Calculator.division(None, None)
+
+def test_div_empty():
+    with raises(InvalidOperation):
+        Calculator.division('', '')
 
 def test_div_zero():
     with raises(DivisionByZero):
